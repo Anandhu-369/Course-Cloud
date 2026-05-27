@@ -10,8 +10,9 @@ from django.urls import reverse_lazy
 #     def get(self,request):
 #         return render(request,'signin.html')
     
-class SigninView(TemplateView):
+class SigninView(FormView):
     template_name='signin.html'
+    form_class=SignInForm
 
 # class SignupView(View):
 #     def get(self,request):

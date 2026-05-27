@@ -14,6 +14,7 @@ class SigninView(FormView):
     template_name='signin.html'
     form_class=SignInForm
 
+
 # class SignupView(View):
 #     def get(self,request):
 #         return render(request,'signup.html')

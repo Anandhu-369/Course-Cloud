@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from student.views import SigninView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('instructor/',include('instructor.urls')),
     path('student/',include('student.urls')),
+    path('',SigninView.as_view(),name='signin'),
 ]

@@ -1,4 +1,28 @@
 {% extends 'base.html' %}
 {% block base %}
-<h2>{{course.title}}</h2>
+<div class="w-full p-2">
+    <div class="grid md:grid-cols-2">
+        <div>
+            <h1 class="text-gray-700 text-shadow-lg">Course Preview</h1>
+            <iframe width="560" height="315" src="{{course.thumbnail}}" 
+            title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="p-3 flex flex-col justify-around gap-2">
+            <h2 class="text-2xl text-shadow-lg">{{course.title}}</h2>
+            <h2 class="text-lg text-right">
+                <i class="fa-solid fa-chalkboard-user" style="color: rgb(14, 14, 13);"></i>
+                {{course.instructor}}</h2>
+            <div>
+                {% for i in course.category.all %}
+                <span>{{i}}</span><b>|</b>
+                {% endfor %}
+            </div>
+            <h3 class="text-lg">Rs.{{course.price}}</h3>
+            <p class="text-justify">{{course.description}}</p>
+            <h4 class="text-lg">Created At:<b>{{course.created_at}}</b></h4>
+            <h4 class="text-lg">Updated At:<b>{{course.updated_at}}</b></h4>
+        </div>
+    </div>
+</div>
+
 {% endblock base %}

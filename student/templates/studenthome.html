@@ -1,5 +1,44 @@
 {% extends 'base.html' %}
 {% block base %}
-<h1>Student Home</h1>
+<div class="w-full">
+    <div class="bg-black grid grid-cols-2 md:grid-cols-2">
+        <div><img src="https://png.pngtree.com/png-vector/20250205/ourmid/pngtree-remote-learning-platform-for-rural-areas-featuring-3d-icon-isolated-on-png-image_15381411.png" alt="hero_img"  height="350px" ></div>
+        <div class="flex flex-col justify-center items-center ">
+            <h2 class="text-5xl text-white">
+                Course Cloud
+                 <i class="fa-solid fa-cloud " style="color: rgb(255, 212, 59);"></i>
+            </h2>
+          <p class="text-white text-justify my-3">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis laboriosam quam exercitationem voluptatibus alias nisi quos deserunt nesciunt nobis! Enim eligendi reprehenderit sit ea odio dolor facere eveniet optio id.</p>
+        <button class="bg-green-500 px-3 py-1 w-[75%] border text-white hover:bg-sky-800">Explore Now!</button>
+        </div>
+    </div>
+    <div class="p-3">
+        <h1 class="text-4xl text-center mb-3">Popular Courses</h1>
+        {% if courses %}
+        <div class="flex flex-wrap gap-2 justify-around">
+            {% for i in courses %}
+            <div class="border-2 border-gray-700 rounded p-2 w-[16rem]">
+                <img src="{{i.course_picture.url}}" alt="course_img" style="height: 200px;">
+                <div>
+                    <h2 class="text-lg">{{i.title}}</h2>
+                    <div class="text-sm">
+                        {% for j in i.category.all %}
+                        <span>{{j.name}}</span><b>|</b>
+                        {% endfor %}
+                    </div>
+                    <h3 class="font-semibold flex items-center">
+                        <i class="fa-solid fa-indian-rupee-sign" style="color: rgb(14, 14, 13);"></i>
+                        {{i.price}}
+                    </h3>
+                    <a href="{% url 'course_details' i.id %}" class="bg-gray-700 text-white px-2 py-1 border shadow rounded w-full ">View More</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <h4 class="text-center text-red-600 text-3xl">No Courses Added Yet !!!</h4>
+        {% endif %}
+    </div>
+</div>
 {% endblock base %}
    

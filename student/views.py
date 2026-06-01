@@ -1,10 +1,11 @@
 from django.shortcuts import render,redirect
 from django.views import View
-from django.views.generic import TemplateView,FormView,CreateView
+from django.views.generic import TemplateView,FormView,CreateView,ListView,DetailView
 from student.forms import *
 from django.urls import reverse_lazy , reverse
 from django.contrib.auth import authenticate,login
 from django.contrib import messages
+from instructor.models import Course
 
 # Create your views here.
 
@@ -44,5 +45,13 @@ class SignupView(CreateView):
     form_class=StudentSignUpForm
     success_url=reverse_lazy('signin')
 
-class StudentHomeView(TemplateView):
+class StudentHomeView(ListView):
     template_name='studenthome.html'
+    queryset=Course.objects.all()
+    context_object_name="courses"
+
+class CourseDetailsView(DetailView):
+    template_name='coursedetails.html'
+    queryset=Course.objects.all()
+    pk_url_kwarg='cid'
+    context_object_name='course'

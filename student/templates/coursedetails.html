@@ -21,8 +21,32 @@
             <p class="text-justify">{{course.description}}</p>
             <h4 class="text-lg">Created At:<b>{{course.created_at}}</b></h4>
             <h4 class="text-lg">Updated At:<b>{{course.updated_at}}</b></h4>
+            <a href="{% url 'addtocart' course.id %}" class="w-full bg-sky-700 text-white text-xl px-3 py-1 rounded border-2
+            border-blue-700 shadow-2xl hover:bg-green-600">
+            <i class="fa-solid fa-cart-arrow-down" style="color: rgb(248, 253, 252);"></i>
+            Add To Cart</a>
+            <a href="" class="w-full bg-red-700 text-white text-xl px-3 py-1 rounded border-2
+            border-blue-700 shadow-2xl hover:bg-red-900">
+            <i class="fa-solid fa-heart-circle-plus" style="color: rgb(255, 255, 255);"></i>
+             Add To Wishlist</a>
+
         </div>
     </div>
+    <div>
+    <h3 class="text-3xl">Modules and Lessons</h3>
+    <dl>
+    {% for module in course.modules.all %}
+    <dt>
+        {{module}}
+    </dt>
+        {% for lesson in module.lessons.all %}
+        <dd>--->{{lesson}}</dd>
+        {% endfor %}
+    {% empty %}
+    <h2 class="text-2xl text-red-400">No Modules !!!</h2>
+    {% endfor %}
+    </div>
+    
 </div>
 
 {% endblock base %}

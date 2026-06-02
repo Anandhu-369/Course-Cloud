@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% block base %}
 <div class="w-full">
+{% if messages %}
+{% for i in messages %}
+{{i}}
+{% endfor %}
+{% endif %}
     <div class="bg-black grid grid-cols-2 md:grid-cols-2">
         <div><img src="https://png.pngtree.com/png-vector/20250205/ourmid/pngtree-remote-learning-platform-for-rural-areas-featuring-3d-icon-isolated-on-png-image_15381411.png" alt="hero_img"  height="350px" ></div>
         <div class="flex flex-col justify-center items-center ">

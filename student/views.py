@@ -84,3 +84,25 @@ class RemoveCartView(View):
         Cart.objects.get(id=cid).delete()
         return redirect('cartlist')
 
+class AddToWishlistView(View):
+    def get(self,request,**kwargs):
+        cid=kwargs.get('cid')
+        c=Course.objects.get(id=cid)
+        student=request.user
+        (object,created)=WishList.objects.get_or_create(course_object=c,student_object=student)
+        if created:
+            return redirect('shome')
+        else:
+              messages.warning(request,"Course Already Added To WishList !!!")
+              return redirect('shome')
+class WishlistShowView(View):
+    def get(self,request):
+        wish_no=WishList.objects.filter(student_object=request.user)
+        count=wish_no.count()
+        return render(request,"wishlist.html",{"data":wish_no,"count":count})
+
+class RemoveWishlistView(View):
+    def get(self,request,**kwargs):
+        cid=kwargs.get('cid')
+        WishList.objects.get(id=cid).delete()
+        return redirect('wishlist')

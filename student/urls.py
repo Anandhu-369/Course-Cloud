@@ -8,4 +8,7 @@ urlpatterns = [
     path('addtocart/<int:cid>',AddToCartView.as_view(),name='addtocart'),
     path('cartlist',CartListView.as_view(),name='cartlist'),
     path('remcart/<int:cid>',RemoveCartView.as_view(),name='remcart'),
+    path('addtowish/<int:cid>',AddToWishlistView.as_view(),name='addtowish'),
+    path('wishlist',WishlistShowView.as_view(),name='wishlist'),
+    path('remwish/<int:cid>',RemoveWishlistView.as_view(),name='remwish'),
 ]

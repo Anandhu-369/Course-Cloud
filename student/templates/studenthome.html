@@ -31,10 +31,14 @@
                         <span>{{j.name}}</span><b>|</b>
                         {% endfor %}
                     </div>
+                    {% if i.is_free %}
+                    <h3 class="font-semibold flex items-center">FREE</h3>
+                    {% else %}
                     <h3 class="font-semibold flex items-center">
                         <i class="fa-solid fa-indian-rupee-sign" style="color: rgb(14, 14, 13);"></i>
                         {{i.price}}
                     </h3>
+                    {% endif %}
                     <a href="{% url 'course_details' i.id %}" class="bg-gray-700 text-white px-2 py-1 border shadow rounded w-full ">View More</a>
                 </div>
             </div>

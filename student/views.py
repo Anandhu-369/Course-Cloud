@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate,login
 from django.contrib import messages
 from instructor.models import Course
 from student.models import *
+from django.db.models import Count
 
 # Create your views here.
 
@@ -68,3 +69,18 @@ class AddToCartView(View):
         else:
             messages.warning(request,"Course Already Added To Cart !!!")
             return redirect('shome')
+    
+class CartListView(View):
+    def get(self,request):
+        cart_list=Cart.objects.filter(student_object=request.user)
+        cart_count=cart_list.count()
+        cart_total=0
+        for i in cart_list:
+            cart_total+=i.course_object.price
+        return render(request,"cartlist.html",{"data":cart_list,"count":cart_count,"cart_total":cart_total})
+class RemoveCartView(View):
+    def get(self,request,**kwargs):
+        cid=kwargs.get('cid')
+        Cart.objects.get(id=cid).delete()
+        return redirect('cartlist')
+

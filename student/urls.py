@@ -6,4 +6,6 @@ urlpatterns = [
     path('studenthome',StudentHomeView.as_view(),name='shome'),
     path('course_details/<int:cid>',CourseDetailsView.as_view(),name="course_details"),
     path('addtocart/<int:cid>',AddToCartView.as_view(),name='addtocart'),
+    path('cartlist',CartListView.as_view(),name='cartlist'),
+    path('remcart/<int:cid>',RemoveCartView.as_view(),name='remcart'),
 ]

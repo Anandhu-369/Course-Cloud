@@ -8,6 +8,13 @@ from django.contrib import messages
 from instructor.models import Course
 from student.models import *
 from django.db.models import Count
+import razorpay
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
+
+RAZOR_PAY_KEY="rzp_test_SxQlqkLHCAfoG1"
+RAZOR_PAY_SECRET_KEY="fUEz6HQQw0GejBXSV0kBBD7R"
 
 # Create your views here.
 
@@ -106,3 +113,54 @@ class RemoveWishlistView(View):
         cid=kwargs.get('cid')
         WishList.objects.get(id=cid).delete()
         return redirect('wishlist')
+    
+
+class PlaceOrderView(View):
+    def get(self,request):
+        student=request.user
+        qs=Cart.objects.filter(student_object=student)
+        cart_total=0
+        for i in qs:
+            cart_total+=i.course_object.price
+        order=Order.objects.create(student_object=student,total=cart_total)
+        for i in qs:
+            order.course_object.add(i.course_object)
+        qs.delete()
+        if cart_total>0:
+            client=razorpay.Client(auth=(RAZOR_PAY_KEY,RAZOR_PAY_SECRET_KEY))
+            data={"amount":int(cart_total),"currency":"INR","receipt":"order_rcptid_11"}
+            payment=client.order.create(data=data)
+            print("payment")
+            order.razr_pay_order_id=payment.get('id')
+            order.save()
+            context={
+                "razr_pay_key":RAZOR_PAY_KEY,
+                "amount":int(cart_total),
+                "razr_pay_order_id":payment.get('id')
+            }
+            return render(request,"payment.html",{"data":context})
+        elif cart_total==0:
+            order.is_paid=True
+            order.save()
+            return redirect('shome')
+        return redirect('shome')
+    
+@method_decorator(csrf_exempt,name="dispatch")    
+class PaymentVerify(View):
+    def post(self,request):
+        print(request.POST)
+        client=razorpay.Client(auth=(RAZOR_PAY_KEY,RAZOR_PAY_SECRET_KEY))
+        try:
+            client.utility.verify_payment_signature(request.POST)
+            rzr_pay_order_id=request.POST.get('razorpay_order_id')
+            order=Order.objects.get(razr_pay_order_id=rzr_pay_order_id)
+            order.is_paid=True
+            order.save()
+        except Exception as e:
+            print(e)
+            print("Failed")
+        return redirect('shome')
+class MyCourseView(View):
+    def get(self,request):
+        order_qs=Order.objects.filter(is_paid=True,student_object=request.user)
+        return render(request,"mycourses.html",{"data":order_qs})

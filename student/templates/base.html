@@ -40,7 +40,10 @@
             <a href="{% url 'cartlist' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Cart
               <span class="text-white bg-red-500">{{cart_count}}</span>
             </a>
-            <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">MyCourses</a>
+            <a href="{% url 'mycourses' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">MyCourses
+              <span class="text-white bg-red-500">{{course_count}}</span>
+
+            </a>
           </div>
         </div>
       </div>

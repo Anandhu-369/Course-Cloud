@@ -11,4 +11,7 @@ urlpatterns = [
     path('addtowish/<int:cid>',AddToWishlistView.as_view(),name='addtowish'),
     path('wishlist',WishlistShowView.as_view(),name='wishlist'),
     path('remwish/<int:cid>',RemoveWishlistView.as_view(),name='remwish'),
+    path('checkout',PlaceOrderView.as_view(),name='checkout'),
+    path('paymentverify',PaymentVerify.as_view(),name='paymentverify'),
+    path('mycourses',MyCourseView.as_view(),name='mycourses')
 ]

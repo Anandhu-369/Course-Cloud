@@ -13,5 +13,6 @@ urlpatterns = [
     path('remwish/<int:cid>',RemoveWishlistView.as_view(),name='remwish'),
     path('checkout',PlaceOrderView.as_view(),name='checkout'),
     path('paymentverify',PaymentVerify.as_view(),name='paymentverify'),
-    path('mycourses',MyCourseView.as_view(),name='mycourses')
+    path('mycourses',MyCourseView.as_view(),name='mycourses'),
+    path('viewlesson/<int:cid>',ViewLessonView.as_view(),name='viewlesson'),
 ]

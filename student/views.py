@@ -5,7 +5,7 @@ from student.forms import *
 from django.urls import reverse_lazy , reverse
 from django.contrib.auth import authenticate,login
 from django.contrib import messages
-from instructor.models import Course
+from instructor.models import Course,Module,Lesson
 from student.models import *
 from django.db.models import Count
 import razorpay
@@ -58,6 +58,11 @@ class StudentHomeView(ListView):
     template_name='studenthome.html'
     queryset=Course.objects.all()
     context_object_name="courses"
+    def get_context_data(self, **kwargs):
+        context= super().get_context_data(**kwargs)
+        purchased_courses=Order.objects.filter(student_object=self.request.user,is_paid=True).values_list("course_object",flat=True)
+        context["purchased_courses"]=purchased_courses
+        return context
 
 class CourseDetailsView(DetailView):
     template_name='coursedetails.html'
@@ -164,3 +169,12 @@ class MyCourseView(View):
     def get(self,request):
         order_qs=Order.objects.filter(is_paid=True,student_object=request.user)
         return render(request,"mycourses.html",{"data":order_qs})
+
+class ViewLessonView(View):
+    def get(self,request,**kwargs):
+        cid=kwargs.get('cid')
+        course=Course.objects.get(id=cid)
+        module=Module.objects.filter(course=course).first()
+        lesson=Lesson.objects.filter(module=module).first() if 'lesson' not in request.GET else Lesson.objects.get(id=request.GET.get('lesson'))
+        return render(request,'viewlessons.html',{"course":course,"lesson":lesson})
+    

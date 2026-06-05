@@ -39,7 +39,11 @@
                         {{i.price}}
                     </h3>
                     {% endif %}
+                    {% if i.id in purchased_courses %}
+                    <h3 class="bg-green-500 text-white">PURCHASED</h3>
+                    {% else %}
                     <a href="{% url 'course_details' i.id %}" class="bg-gray-700 text-white px-2 py-1 border shadow rounded w-full ">View More</a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}

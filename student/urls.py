@@ -15,4 +15,5 @@ urlpatterns = [
     path('paymentverify',PaymentVerify.as_view(),name='paymentverify'),
     path('mycourses',MyCourseView.as_view(),name='mycourses'),
     path('viewlesson/<int:cid>',ViewLessonView.as_view(),name='viewlesson'),
+    path('signout',LogoutView.as_view(),name='signout')
 ]

@@ -3,7 +3,7 @@ from django.views import View
 from django.views.generic import TemplateView,FormView,CreateView,ListView,DetailView
 from student.forms import *
 from django.urls import reverse_lazy , reverse
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from instructor.models import Course,Module,Lesson
 from student.models import *
@@ -53,6 +53,12 @@ class SignupView(CreateView):
     template_name='signup.html'
     form_class=StudentSignUpForm
     success_url=reverse_lazy('signin')
+
+class LogoutView(View):
+    def get(self,request):
+        logout(request)
+        return redirect('signin')
+
 
 class StudentHomeView(ListView):
     template_name='studenthome.html'

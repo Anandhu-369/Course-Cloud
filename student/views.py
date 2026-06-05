@@ -12,9 +12,10 @@ import razorpay
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
+from decouple import config
 
-RAZOR_PAY_KEY="rzp_test_SxQlqkLHCAfoG1"
-RAZOR_PAY_SECRET_KEY="fUEz6HQQw0GejBXSV0kBBD7R"
+RAZOR_PAY_KEY=config('RAZOR_PAY_KEY')
+RAZOR_PAY_SECRET_KEY=config('RAZOR_PAY_SECRET_KEY')
 
 def signin_required(fn):
     def inner(request,*args,**kwargs):
@@ -180,7 +181,7 @@ class PlaceOrderView(View):
             return redirect('shome')
         return redirect('shome')
     
-@method_decorator([csrf_exempt,signin_required,never_cache],name="dispatch")    
+@method_decorator(csrf_exempt,name="dispatch")    
 class PaymentVerify(View):
     def post(self,request):
         print(request.POST)
